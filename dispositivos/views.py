@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.http import HttpResponse
+from django.shortcuts import render
 
 def inicio(request):
     return HttpResponse(
@@ -28,3 +29,26 @@ def personaje_id(request, personaje_id):
         f"Dispositivo no encontrado", status=404
     ) 
 
+def inicio(request):
+    contexto = {
+        "sistema": "EcoEnergy",
+        "mensaje": "Monitoreo energético responsable",
+        "asignatura": "Programación Back End",
+        }
+    return render(
+        request,
+        "dispositivos/inicio.html",
+        contexto,
+    )
+
+def catalogo(request):
+    dispositivos = [
+        {"nombre": "Medidor inteligente", "estado": "Activo"},
+        {"nombre": "Sensor de temperatura", "estado": "Activo"},
+        {"nombre": "Climatizador", "estado": "Revisión"},
+        ]
+    return render(
+        request,
+        "dispositivos/catalogo.html",
+        {"dispositivos": dispositivos},
+        )

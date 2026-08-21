@@ -14,7 +14,14 @@ urlpatterns = [
         "personaje/<int:personaje_id>",
         views.personaje_id,
         name="por_personaje"
+    ),
+    path ("dispositivos/", 
+    views.catalogo, 
+    name="catalogo"
     )
+
     
 ]
+
+
 
