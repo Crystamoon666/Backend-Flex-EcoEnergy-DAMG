@@ -1,15 +1,15 @@
 [
     {"id": 1,
     "nombre": "Pantallas",
-    "descripción": "Pantallas LED"
+    "descripcion": "Pantallas LED"
     },
     {
      "id": 2,
     "nombre": "Computadoras",
-    "descripción": "Computadoras de escritorio y portátiles"  
+    "descripcion": "Computadoras de escritorio y portátiles"  
     },
     {    "id": 3,
     "nombre": "Electrodomésticos",
-    "descripción": "Refrigeradores, lavadoras, microondas, etc."
+    "descripcion": "Refrigeradores, lavadoras, microondas, etc."
     }
 ]

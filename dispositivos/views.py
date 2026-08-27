@@ -1,74 +1,65 @@
 from django.shortcuts import render
 
 # Create your views here.
-from django.http import HttpResponse
+from django.http import Http404
 from django.shortcuts import render
-from .services import cargar_dispositivos
 
+from .services import cargar_zonas, cargar_categorias, cargar_dispositivos
 
-def inicio(request):
-    return HttpResponse(
-        "<h1>EcoEnergy</h1>"
-        "<p>Back End en funcionamiento</p>"
-    )
-
-
-def dispositivos_zona(request, zona_id):
-    if zona_id != 3:
-        return HttpResponse(
-            "Zona no encontrada", status=404
-        )
-    return HttpResponse(
-        f"Dispositivos de la zona {zona_id}"
-    )
-
-def personaje_id(request, personaje_id):
-    if personaje_id >=15:
-        return  HttpResponse(
-            f"Personaje encontrado {personaje_id}", status=200
-        )
-    return HttpResponse(
-        f"Dispositivo no encontrado", status=404
-    ) 
 
 def inicio(request):
     contexto = {
         "sistema": "EcoEnergy",
         "mensaje": "Monitoreo energético responsable",
         "asignatura": "Programación Back End",
-        }
-    return render(
-        request,
-        "dispositivos/inicio.html",
-        contexto,
-    )
+    }
+    return render(request, "dispositivos/inicio.html", contexto)
 
-def catalogo(request):
-    dispositivos = [
-        {"nombre": "Medidor inteligente", "estado": "Activo"},
-        {"nombre": "Sensor de temperatura", "estado": "Activo"},
-        {"nombre": "Climatizador", "estado": "Revisión"},
-        ]
-    return render(
-        request,
-        "dispositivos/catalogo.html",
-        {"dispositivos": dispositivos},
-        )
 
-def catalogo(request):
+def listado_zonas(request):
+    zonas = cargar_zonas()
     dispositivos = cargar_dispositivos()
 
-    activos = sum(
-        1 for item in dispositivos
-        if item["estado"] == "Activo"
-        )
-    
-    contexto = {
-        "dispositivos": dispositivos,
-        "total": len(dispositivos),
-        "total_activos": activos,
-    }
+    resumen_zonas = []
+    for zona in zonas:
+        cantidad = sum(1 for d in dispositivos if d["zona_id"] == zona["id"])
+        resumen_zonas.append({
+            "id": zona["id"],
+            "nombre": zona["nombre"],
+            "limite_kwh": zona["limite_kwh"],
+            "cantidad_dispositivos": cantidad,
+        })
 
-    return render(
-        request, "dispositivos/catalogo.html", contexto
-    )
+    return render(request, "dispositivos/zonas.html", {"zonas": resumen_zonas})
+
+
+def detalle_zona(request, zona_id):
+    zonas = cargar_zonas()
+    categorias = cargar_categorias()
+    dispositivos = cargar_dispositivos()
+
+    zona = next((z for z in zonas if z["id"] == zona_id), None)
+    if zona is None:
+        raise Http404("Zona no encontrada")
+
+    categorias_por_id = {c["id"]: c["nombre"] for c in categorias}
+
+    dispositivos_zona = [
+        {
+            "nombre": d["nombre"],
+            "categoria": categorias_por_id.get(d["categoria_id"], "Sin categoría"),
+            "consumo_kwh": d["consumo_kwh"],
+        }
+        for d in dispositivos if d["zona_id"] == zona_id
+    ]
+
+    consumo_total = sum(d["consumo_kwh"] for d in dispositivos_zona)
+    estado = "ALERTA" if consumo_total > zona["limite_kwh"] else "NORMAL"
+
+    contexto = {
+        "zona": zona,
+        "dispositivos": dispositivos_zona,
+        "consumo_total": round(consumo_total, 2),
+        "estado": estado,
+    }
+    return render(request, "dispositivos/detalle_zona.html", contexto)

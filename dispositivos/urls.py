@@ -5,22 +5,8 @@ app_name = "dispositivos"
 
 urlpatterns = [
     path("", views.inicio, name="inicio"),
-    path(
-        "zonas/<int:zona_id>/dispositivos/",
-        views.dispositivos_zona,
-        name="por_zona",
-    ),
-    path(
-        "personaje/<int:personaje_id>",
-        views.personaje_id,
-        name="por_personaje"
-    ),
-    path ("dispositivos/", 
-    views.catalogo, 
-    name="catalogo"
-    )
-
-    
+    path("zonas/", views.listado_zonas, name="listado_zonas"),
+    path("zonas/<int:zona_id>/", views.detalle_zona, name="detalle_zona"),
 ]
 
 
