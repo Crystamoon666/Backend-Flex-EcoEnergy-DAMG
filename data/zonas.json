@@ -1,0 +1,18 @@
+[
+{
+    "id": 1,
+    "nombre": "Zona Norte",
+    "limite_KWH":  1000 
+},
+{
+    "id": 2,
+    "nombre": "Zona Sur",
+    "limite_KWH":  1500 
+},
+{
+    "id": 3,
+    "nombre": "Zona Este",
+    "limite_KWH":  2000
+}
+
+]
