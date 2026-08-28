@@ -63,3 +63,9 @@ def detalle_zona(request, zona_id):
         "estado": estado,
     }
     return render(request, "dispositivos/detalle_zona.html", contexto)
+
+def resumen_zona(request):
+    contexto = {
+        "titulo":"Resumen de Consumo por Zona"
+    }
+    return render(request, "dispositivos/resumen_zona.html", contexto)

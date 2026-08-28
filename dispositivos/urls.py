@@ -7,6 +7,8 @@ urlpatterns = [
     path("", views.inicio, name="inicio"),
     path("zonas/", views.listado_zonas, name="listado_zonas"),
     path("zonas/<int:zona_id>/", views.detalle_zona, name="detalle_zona"),
+    path("", views.resumen_zona, name= "resumen_zona")
+    
 ]
 
 
