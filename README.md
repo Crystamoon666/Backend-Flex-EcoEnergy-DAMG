@@ -23,7 +23,7 @@ modelos y funcionalidades del sistema.
 ## Clonación del repositorio
 
 ```bash
-git clone https://github.com/ChristianInacapBarrera/backend-flex-EcoEnergy.git
+[https://github.com/Crystamoon666/Backend-Flex-EcoEnergy-DAMG.git]
 cd backend-flex-EcoEnergy
 ```
 
