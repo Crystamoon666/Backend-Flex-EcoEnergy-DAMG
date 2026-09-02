@@ -1,4 +1,61 @@
-{% block title %}Resumen de Zonas| EcoEnergy{% endblock %}
+{% extends "base.html" %}
+{% block title %}Resumen de Zonas | EcoEnergy{% endblock %}
 {% block content %}
-    <h1>{{ titulo }}</h1>
+
+<h1 class="mb-4">{{ titulo }}</h1>
+
+<div class="row text-center g-3 mb-4">
+    <div class="col-md-4">
+        <div class="card p-3 h-100">
+            <strong>Zonas</strong>
+            <span class="fs-4">{{ total_zonas }}</span>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-3 h-100">
+            <strong>Dispositivos</strong>
+            <span class="fs-4">{{ total_dispositivos }}</span>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-3 h-100">
+            <strong>Consumo total</strong>
+            <span class="fs-4">{{ consumo_total_general }} kWh</span>
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Zona</th>
+                <th>Dispositivos</th>
+                <th>Consumo total (kWh)</th>
+                <th>Límite (kWh)</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for zona in resumen_zonas %}
+            <tr>
+                <td>{{ zona.nombre }}</td>
+                <td>{{ zona.cantidad_dispositivos }}</td>
+                <td>{{ zona.consumo_total }}</td>
+                <td>{{ zona.limite_kwh }}</td>
+                <td>
+                    <span class="badge bg-{{ zona.estado_css }}">
+                        {{ zona.estado }}
+                    </span>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-muted">No hay zonas disponibles.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
 {% endblock %}
